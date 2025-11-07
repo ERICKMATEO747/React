@@ -10,30 +10,42 @@ import NewPasswordForm from './features/auth/components/NewPasswordForm';
 import PasswordResetSuccess from './features/auth/components/PasswordResetSuccess';
 import HelpPage from './pages/HelpPage';
 import ModernHome from './pages/ModernHome';
+import ProfilePage from './pages/ProfilePage';
+import LoadingSpinner from './shared/components/LoadingSpinner';
 import ErrorBoundary from './shared/components/ErrorBoundary';
 
 function App() {
   const { user, loading, isAuthenticated, login, logout } = useAuth();
-  const [currentView, setCurrentView] = useState('login'); // 'login', 'register', 'otp', 'success', 'forgot', 'passwordOtp', 'newPassword', 'passwordSuccess', 'help'
+  const [currentView, setCurrentView] = useState('login'); // 'login', 'register', 'otp', 'success', 'forgot', 'passwordOtp', 'newPassword', 'passwordSuccess', 'help', 'profile'
   const [registrationData, setRegistrationData] = useState(null);
   const [passwordResetData, setPasswordResetData] = useState({ email: '', otpCode: '' });
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-flevo-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-slate-700">Cargando...</h2>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Iniciando sesión..." />;
   }
 
   return (
     <ErrorBoundary>
       <div className="App">
         {isAuthenticated ? (
-          <ModernHome user={user} onLogout={logout} />
+          currentView === 'profile' ? (
+            <ProfilePage 
+              user={user} 
+              onBack={() => setCurrentView('home')}
+              onShowHelp={() => setCurrentView('help')}
+            />
+          ) : currentView === 'help' ? (
+            <HelpPage 
+              onBackToLogin={() => setCurrentView('home')}
+            />
+          ) : (
+            <ModernHome 
+              user={user} 
+              onLogout={logout}
+              onProfile={() => setCurrentView('profile')}
+              onShowHelp={() => setCurrentView('help')}
+            />
+          )
         ) : (
           <>
             {currentView === 'login' && (

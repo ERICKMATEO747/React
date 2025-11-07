@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  BASE_URL: process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/api',
+  BASE_URL: process.env.REACT_APP_API_URL || 'http://192.168.0.98:8000/api',
   TIMEOUT: 10000
 };
 

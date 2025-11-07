@@ -11,10 +11,21 @@ export const getItem = (key) => {
   try {
     const item = localStorage.getItem(key);
     if (!item) return null;
-    return JSON.parse(item);
+    
+    // For tokens, return as string directly
+    if (key.includes('token')) {
+      return item;
+    }
+    
+    // For other data, try to parse as JSON
+    try {
+      return JSON.parse(item);
+    } catch {
+      return item;
+    }
   } catch (error) {
     console.error('Error reading from localStorage:', error);
-    return localStorage.getItem(key);
+    return null;
   }
 };
 
