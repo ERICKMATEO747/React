@@ -3,6 +3,10 @@ export const API_CONFIG = {
   TIMEOUT: 10000
 };
 
+// Debug: Log the environment variable
+console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+console.log('API_CONFIG.BASE_URL:', API_CONFIG.BASE_URL);
+
 export const ENDPOINTS = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
